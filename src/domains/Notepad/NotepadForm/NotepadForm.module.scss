@@ -1,0 +1,10 @@
+@import 'styles/variables';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  label {
+    margin-bottom: $medium-size;
+  }
+}

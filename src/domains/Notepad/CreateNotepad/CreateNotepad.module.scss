@@ -1,0 +1,20 @@
+@import 'styles/variables';
+
+.root {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  .fromWrapper {
+    flex: 1;
+  }
+
+  .btnsWrapper {
+    flex: 2;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn {
+    margin-left: $medium-size;
+  }
+}

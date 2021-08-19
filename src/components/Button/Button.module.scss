@@ -1,0 +1,29 @@
+@import 'styles/variables';
+
+.root {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  padding: $medium-size $large-size;
+  border-radius: 5px;
+  font-size: $button-font-size;
+}
+
+.btnPrimary {
+  color: $white;
+  background-color: $blue;
+}
+
+.btnSecondary {
+  color: $white;
+  background-color: $red;
+}
+
+.btnDefault {
+  color: $black;
+  background-color: $white;
+  border: 1px solid $border-color;
+}

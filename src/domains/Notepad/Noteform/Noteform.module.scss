@@ -1,0 +1,19 @@
+@import 'styles/variables';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  margin-top: $extra-large-size;
+  h1,
+  input,
+  textarea {
+    margin-bottom: $medium-size;
+  }
+  .btn {
+    width: 80px;
+    background-color: $green;
+  }
+  .header {
+    font-size: $header-font-size;
+  }
+}
