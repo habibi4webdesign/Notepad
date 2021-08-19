@@ -20,7 +20,6 @@ const CreateNotepad = () => {
   };
 
   const onFormSubmit = (values, { resetForm }) => {
-    debugger;
     createGist(values.notepad);
   };
 
@@ -36,7 +35,17 @@ const CreateNotepad = () => {
             <>
               <div className={style.fromWrapper}>
                 <NotepadForm name="notepad" />
-                <Notefrom name="notes" />
+                <Notefrom hasHeader name="notes" />
+                {values?.notes &&
+                  values?.notes.map((noteform, index) => (
+                    <Notefrom
+                      noteIndex={index}
+                      isEditMode
+                      title={noteform.title}
+                      desc={noteform.desc}
+                      name="notes"
+                    />
+                  ))}
               </div>
               <div className={style.btnsWrapper}>
                 <Button className={style.btn} type="btnDefault">
@@ -53,7 +62,6 @@ const CreateNotepad = () => {
                   Delete
                 </Button>
               </div>
-              {/* list of notes */}
             </>
           );
         }}

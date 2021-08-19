@@ -2,18 +2,47 @@
 
 .root {
   display: flex;
-  flex-direction: column;
   margin-top: $extra-large-size;
+  align-items: flex-start;
   h1,
   input,
   textarea {
     margin-bottom: $medium-size;
   }
+  &.add {
+    flex-direction: column;
+    .btn {
+      background-color: $green;
+    }
+  }
+
+  &.edit {
+    flex-direction: row;
+    .btn {
+      background-color: $red;
+      margin-left: $medium-size;
+    }
+  }
+
   .btn {
     width: 80px;
-    background-color: $green;
   }
+
   .header {
     font-size: $header-font-size;
+  }
+
+  .formWrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: $tablet-break-point) {
+    &.edit {
+      flex-direction: column;
+      .btn {
+        margin-left: 0;
+      }
+    }
   }
 }

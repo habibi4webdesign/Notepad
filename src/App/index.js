@@ -5,7 +5,7 @@ import { routes } from 'routes/index';
 const App = () => (
   <div>
     <Router>
-      <div>
+      <div className="app">
         {routes.map((route, index) => (
           <Route key={index} {...route} />
         ))}
