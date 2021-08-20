@@ -39,7 +39,19 @@ const useGists = () => {
       });
   };
 
-  return { notepadState, getNotepad, createNotepad };
+  const deleteNotepad = (notepadId, history) => {
+    API.delete(`/gists/${notepadId}`)
+      .then((res) => {
+        if (res && res.status === 204) {
+          history.push('/notepad');
+        }
+      })
+      .catch(function (error) {
+        //TODO handle errors
+      });
+  };
+
+  return { notepadState, getNotepad, createNotepad, deleteNotepad };
 };
 
 export default useGists;

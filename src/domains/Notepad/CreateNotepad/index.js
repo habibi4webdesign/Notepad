@@ -15,7 +15,7 @@ import Button from 'components/Button';
 const MAX_TITLE_LENGTH = 255;
 
 const CreateNotepad = ({ history, match }) => {
-  const { notepadState, getNotepad, createNotepad } = useGists();
+  const { notepadState, getNotepad, createNotepad, deleteNotepad } = useGists();
   const [initialValues, setinitialValues] = useState({
     notepad: '',
     notes: [],
@@ -49,6 +49,10 @@ const CreateNotepad = ({ history, match }) => {
 
   const saveNotebook = (values, { resetForm }) => {
     createNotepad(values, history);
+  };
+
+  const deleteNotepadItem = () => {
+    deleteNotepad(match?.params?.notepadId, history);
   };
 
   const notbookSchema = yup.object({
@@ -101,6 +105,7 @@ const CreateNotepad = ({ history, match }) => {
                   Save
                 </Button>
                 <Button
+                  onClick={deleteNotepadItem}
                   className={style.btn}
                   type="btnSecondary"
                 >
