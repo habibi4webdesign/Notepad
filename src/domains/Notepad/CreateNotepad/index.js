@@ -47,7 +47,7 @@ const CreateNotepad = ({ history, match }) => {
     }
   }, [notepadState]);
 
-  const saveNotebook = (values, { resetForm }) => {
+  const saveNotepad = (values, { resetForm }) => {
     createNotepad(values, history);
   };
 
@@ -72,7 +72,7 @@ const CreateNotepad = ({ history, match }) => {
       <Formik
         enableReinitialize
         initialValues={initialValues}
-        onSubmit={saveNotebook}
+        onSubmit={saveNotepad}
         validationSchema={notbookSchema}
       >
         {({ handleSubmit, values }) => {
@@ -94,7 +94,11 @@ const CreateNotepad = ({ history, match }) => {
                   ))}
               </div>
               <div className={style.btnsWrapper}>
-                <Button className={style.btn} type="btnDefault">
+                <Button
+                  onClick={() => history.push('/notepad/chart')}
+                  className={style.btn}
+                  type="btnDefault"
+                >
                   View Stats
                 </Button>
                 <Button

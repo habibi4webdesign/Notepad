@@ -10,20 +10,31 @@
   padding: $medium-size $large-size;
   border-radius: 5px;
   font-size: $button-font-size;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .btnPrimary {
   color: $white;
   background-color: $blue;
+  &:hover {
+    background-color: darken($blue, 10);
+  }
 }
 
 .btnSecondary {
   color: $white;
   background-color: $red;
+  &:hover {
+    background-color: darken($red, 10);
+  }
 }
 
 .btnDefault {
   color: $black;
   background-color: $white;
   border: 1px solid $border-color;
+  &:hover {
+    background-color: darken($white, 10);
+  }
 }

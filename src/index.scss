@@ -153,6 +153,7 @@ textarea {
 .app {
   max-width: $desktop-break-point;
   margin: 0 auto;
+  padding: 1em;
 }
 
 @include placeholder {

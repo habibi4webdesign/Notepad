@@ -1,0 +1,15 @@
+@import 'styles/variables';
+
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn {
+  align-self: center;
+  margin-bottom: $extra-large-size;
+}
+
+.close {
+  align-self: flex-end;
+}

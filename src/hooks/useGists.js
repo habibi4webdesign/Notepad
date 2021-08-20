@@ -3,6 +3,7 @@ import API from 'utils/api';
 
 const useGists = () => {
   const [notepadState, setnotepadState] = useState(null);
+  const [notepadListState, setnotepadListState] = useState([]);
 
   const getNotepad = (notepadId) => {
     API.get(`/gists/${notepadId}`)
@@ -51,7 +52,24 @@ const useGists = () => {
       });
   };
 
-  return { notepadState, getNotepad, createNotepad, deleteNotepad };
+  const getNotepadList = (page) => {
+    API.get(`/gists/public?page=${page}&per_page=8`)
+      .then((res) => {
+        setnotepadListState(res.data);
+      })
+      .catch(function (error) {
+        //TODO handle errors
+      });
+  };
+
+  return {
+    notepadState,
+    notepadListState,
+    getNotepad,
+    createNotepad,
+    deleteNotepad,
+    getNotepadList,
+  };
 };
 
 export default useGists;
