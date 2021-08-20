@@ -1,0 +1,9 @@
+@import 'styles/variables';
+
+.error {
+  align-self: flex-end;
+  color: $red;
+  position: absolute;
+  bottom: -$medium-size;
+  font-size: $label-font-size;
+}

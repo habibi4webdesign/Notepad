@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 //styles
 import style from './Noteform.module.scss';
-import { ErrorMessage, useField } from 'formik';
+import { useField } from 'formik';
 //UI components
 import Button from 'components/Button';
+import Error from 'components/Error';
+
+const MAX_TITLE_LENGTH = 255;
+const MAX_DESC_LENGTH = 100; //TODO:just for test
 
 const Noteform = (props) => {
   const {
@@ -16,17 +20,30 @@ const Noteform = (props) => {
   } = props;
   const [noteTitle, setnoteTitle] = useState('');
   const [noteDescription, setnoteDescription] = useState('');
-  const [, { value }, { setValue }] = useField(name);
+  const [, { value, error }, { setValue, setError }] = useField(name);
 
   useEffect(() => {
-    if (title || desc) {
+    if (title?.length) {
       setnoteTitle(title);
+    }
+    if (desc?.length) {
       setnoteDescription(desc);
     }
   }, [title, desc]);
 
   const onTitleChange = (e) => {
     const inputVal = e?.target?.value;
+
+    if (inputVal.length > MAX_TITLE_LENGTH) {
+      setError({
+        [noteIndex]: `title length should be less than ${MAX_TITLE_LENGTH}`,
+      });
+      return;
+    }
+
+    if (!inputVal.length) {
+      setError({ [noteIndex]: 'note title and note description are required' });
+    }
 
     setnoteTitle(inputVal);
 
@@ -40,6 +57,17 @@ const Noteform = (props) => {
   const onDescriptionChange = (e) => {
     const inputVal = e?.target?.value;
 
+    if (inputVal.length > MAX_DESC_LENGTH) {
+      setError({
+        [noteIndex]: `description length should be less than ${MAX_DESC_LENGTH}`,
+      });
+      return;
+    }
+
+    if (!inputVal.length) {
+      setError({ [noteIndex]: 'note title and note description are required' });
+    }
+
     setnoteDescription(inputVal);
 
     if (isEditMode) {
@@ -50,6 +78,25 @@ const Noteform = (props) => {
   };
 
   const addNote = () => {
+    if (noteTitle.length > MAX_TITLE_LENGTH) {
+      setError({
+        [noteIndex]: `title length should be less than ${MAX_TITLE_LENGTH}`,
+      });
+      return;
+    }
+
+    if (noteDescription.length > MAX_DESC_LENGTH) {
+      setError({
+        [noteIndex]: `description length should be less than ${MAX_DESC_LENGTH}`,
+      });
+      return;
+    }
+
+    if (!noteTitle.length || !noteDescription.length) {
+      setError({ [noteIndex]: 'note title and note description are required' });
+      return;
+    }
+
     const note = {
       title: noteTitle,
       desc: noteDescription,
@@ -86,6 +133,17 @@ const Noteform = (props) => {
           value={noteDescription}
           placeholder="Enter note..."
         />
+        {error && (
+          <Error>
+            {Array.isArray(error)
+              ? error.map((item) => {
+                  return Object.keys(item)
+                    .map((key) => item[key])
+                    .join(' and ');
+                })
+              : error[noteIndex]}
+          </Error>
+        )}
       </div>
       <div className={style.btnsWrapper}>
         {isEditMode ? (
@@ -106,8 +164,6 @@ const Noteform = (props) => {
           </Button>
         )}
       </div>
-
-      <ErrorMessage name={name}>{(msg) => <div>{msg}</div>}</ErrorMessage>
     </div>
   );
 };

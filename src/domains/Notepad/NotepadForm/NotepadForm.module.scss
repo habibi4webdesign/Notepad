@@ -5,6 +5,10 @@
   flex-direction: column;
   align-items: flex-start;
   width: 60%;
+  position: relative;
+  input {
+    margin-bottom: $medium-size;
+  }
   label {
     margin-bottom: $medium-size;
   }

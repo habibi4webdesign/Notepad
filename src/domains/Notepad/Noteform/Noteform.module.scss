@@ -35,6 +35,7 @@
   .formWrapper {
     display: flex;
     flex-direction: column;
+    position: relative;
   }
 
   @media (max-width: $tablet-break-point) {

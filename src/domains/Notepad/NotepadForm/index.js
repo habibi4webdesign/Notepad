@@ -2,6 +2,8 @@ import React from 'react';
 //styles
 import style from './NotepadForm.module.scss';
 import { ErrorMessage, useField } from 'formik';
+//UI components
+import Error from 'components/Error';
 
 const NotepadForm = (props) => {
   const { name = 'notepad' } = props;
@@ -22,7 +24,7 @@ const NotepadForm = (props) => {
         value={value}
         placeholder="My notepad title..."
       />
-      <ErrorMessage name={name}>{(msg) => <div>{msg}</div>}</ErrorMessage>
+      <ErrorMessage name={name}>{(msg) => <Error>{msg}</Error>}</ErrorMessage>
     </div>
   );
 };
