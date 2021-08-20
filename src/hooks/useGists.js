@@ -2,25 +2,44 @@ import { useState } from 'react';
 import API from 'utils/api';
 
 const useGists = () => {
-  const [gists, setgists] = useState([]);
+  const [notepadState, setnotepadState] = useState(null);
 
-  const getGists = () => {
-    API.get(`/gists/public`)
+  const getNotepad = (notepadId) => {
+    API.get(`/gists/${notepadId}`)
       .then((res) => {
-        setgists(res.data);
+        setnotepadState(res.data);
       })
-      .catch(function (error) {});
+      .catch(function (error) {
+        //TODO handle errors
+      });
   };
 
-  const createGist = (notepad) => {
-    API.post(`/gists`, { files: {} })
+  const createNotepad = ({ notepad, notes }, history) => {
+    const finalNotes = Object.fromEntries(
+      notes.map((note) => {
+        return [
+          [note.title],
+          {
+            content: note.desc,
+          },
+        ];
+      }),
+    );
+
+    API.post(`/gists`, {
+      public: true,
+      description: notepad,
+      files: finalNotes,
+    })
       .then((res) => {
-        setgists(res.data);
+        history.push(`/notepad/${res?.data?.id}`);
       })
-      .catch(function (error) {});
+      .catch(function (error) {
+        //TODO handle errors
+      });
   };
 
-  return { gists, getGists, createGist };
+  return { notepadState, getNotepad, createNotepad };
 };
 
 export default useGists;

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 //domains components
@@ -13,16 +14,41 @@ import Button from 'components/Button';
 
 const MAX_TITLE_LENGTH = 255;
 
-const CreateNotepad = () => {
-  const { createGist } = useGists();
-
-  const initialValues = {
+const CreateNotepad = ({ history, match }) => {
+  const { notepadState, getNotepad, createNotepad } = useGists();
+  const [initialValues, setinitialValues] = useState({
     notepad: '',
     notes: [],
-  };
+  });
 
-  const onFormSubmit = (values, { resetForm }) => {
-    createGist(values.notepad);
+  useEffect(() => {
+    if (match?.params?.notepadId) {
+      getNotepad(match.params.notepadId);
+    }
+  }, [match?.params?.notepadId]);
+
+  useEffect(() => {
+    let normalizedNotes = [];
+    const tempNotes = notepadState?.files;
+    for (const key in tempNotes) {
+      if (Object.hasOwnProperty.call(tempNotes, key)) {
+        normalizedNotes.push({
+          title: key,
+          desc: tempNotes[key].content,
+        });
+      }
+    }
+
+    if (notepadState) {
+      setinitialValues({
+        notepad: notepadState.description,
+        notes: normalizedNotes,
+      });
+    }
+  }, [notepadState]);
+
+  const saveNotebook = (values, { resetForm }) => {
+    createNotepad(values, history);
   };
 
   const notbookSchema = yup.object({
@@ -42,7 +68,7 @@ const CreateNotepad = () => {
       <Formik
         enableReinitialize
         initialValues={initialValues}
-        onSubmit={onFormSubmit}
+        onSubmit={saveNotebook}
         validationSchema={notbookSchema}
       >
         {({ handleSubmit, values }) => {
@@ -74,7 +100,10 @@ const CreateNotepad = () => {
                 >
                   Save
                 </Button>
-                <Button className={style.btn} type="btnSecondary">
+                <Button
+                  className={style.btn}
+                  type="btnSecondary"
+                >
                   Delete
                 </Button>
               </div>
@@ -86,4 +115,4 @@ const CreateNotepad = () => {
   );
 };
 
-export default CreateNotepad;
+export default withRouter(CreateNotepad);

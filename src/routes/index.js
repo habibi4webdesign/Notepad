@@ -12,4 +12,9 @@ export const routes = [
     exact: true,
     path: '/notepad',
   },
+  {
+    component: NotpadForm,
+    exact: true,
+    path: '/notepad/:notepadId',
+  },
 ];
