@@ -7,7 +7,7 @@ import Button from 'components/Button';
 import Error from 'components/Error';
 
 const MAX_TITLE_LENGTH = 255;
-const MAX_DESC_LENGTH = 100; //TODO:just for test
+const MAX_DESC_LENGTH = 1000;
 
 const Noteform = (props) => {
   const {
@@ -39,10 +39,14 @@ const Noteform = (props) => {
         [noteIndex]: `title length should be less than ${MAX_TITLE_LENGTH}`,
       });
       return;
+    } else {
+      setError({});
     }
 
     if (!inputVal.length) {
       setError({ [noteIndex]: 'note title and note description are required' });
+    } else {
+      setError({});
     }
 
     setnoteTitle(inputVal);
@@ -62,10 +66,14 @@ const Noteform = (props) => {
         [noteIndex]: `description length should be less than ${MAX_DESC_LENGTH}`,
       });
       return;
+    } else {
+      setError({});
     }
 
     if (!inputVal.length) {
       setError({ [noteIndex]: 'note title and note description are required' });
+    } else {
+      setError({});
     }
 
     setnoteDescription(inputVal);
@@ -83,6 +91,8 @@ const Noteform = (props) => {
         [noteIndex]: `title length should be less than ${MAX_TITLE_LENGTH}`,
       });
       return;
+    } else {
+      setError({});
     }
 
     if (noteDescription.length > MAX_DESC_LENGTH) {
@@ -90,11 +100,15 @@ const Noteform = (props) => {
         [noteIndex]: `description length should be less than ${MAX_DESC_LENGTH}`,
       });
       return;
+    } else {
+      setError({});
     }
 
     if (!noteTitle.length || !noteDescription.length) {
       setError({ [noteIndex]: 'note title and note description are required' });
       return;
+    } else {
+      setError({});
     }
 
     const note = {
