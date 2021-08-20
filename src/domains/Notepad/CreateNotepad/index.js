@@ -47,7 +47,7 @@ const CreateNotepad = ({ history, match }) => {
     }
   }, [notepadState]);
 
-  const saveNotepad = (values, { resetForm }) => {
+  const saveNotepad = (values) => {
     createNotepad(values, history);
   };
 
@@ -108,13 +108,16 @@ const CreateNotepad = ({ history, match }) => {
                 >
                   Save
                 </Button>
-                <Button
-                  onClick={deleteNotepadItem}
-                  className={style.btn}
-                  type="btnSecondary"
-                >
-                  Delete
-                </Button>
+                {match?.params?.notepadId && (
+                  <Button
+                    disabled={!values?.notes?.length}
+                    onClick={deleteNotepadItem}
+                    className={style.btn}
+                    type="btnSecondary"
+                  >
+                    Delete
+                  </Button>
+                )}
               </div>
             </>
           );

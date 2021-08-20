@@ -6,14 +6,6 @@
   align-items: center;
 }
 
-.btn {
-  padding: $medium-size $large-size;
-  border-radius: 5px;
-  font-size: $button-font-size;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
 .btnPrimary {
   color: $white;
   background-color: $blue;
@@ -36,5 +28,21 @@
   border: 1px solid $border-color;
   &:hover {
     background-color: darken($white, 10);
+  }
+}
+
+.btn {
+  padding: $medium-size $large-size;
+  border-radius: 5px;
+  font-size: $button-font-size;
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    &:disabled {
+      background-color: $gray;
+    }
+  }
+  &:disabled {
+    background-color: $gray;
   }
 }

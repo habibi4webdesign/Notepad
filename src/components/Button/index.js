@@ -3,9 +3,10 @@ import React from 'react';
 import style from './Button.module.scss';
 
 const Button = (props) => {
-  const { type, children, onClick, className } = props;
+  const { type, children, onClick, className, disabled } = props;
   return (
     <button
+      disabled={disabled}
       onClick={onClick}
       className={`${style.btn} ${style[type]} ${className}`}
     >
