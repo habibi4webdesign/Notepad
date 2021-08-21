@@ -142,14 +142,6 @@ label {
   font-size: $label-font-size;
 }
 
-input,
-textarea {
-  border-radius: $border-radius;
-  border: 1px solid $border-color;
-  padding: $medium-size;
-  width: calc(100% - 20px);
-}
-
 .app {
   max-width: $desktop-break-point;
   margin: 0 auto;

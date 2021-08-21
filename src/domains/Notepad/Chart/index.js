@@ -14,19 +14,34 @@ const NOTES_TYPE = 'notes';
 const Chart = (props) => {
   const { history } = props;
   const { getNotepadList, notepadListState } = useGists();
-  const [notepadCreatedDate, setnotepadCreatedDate] = useState([]);
+  const [notepadCreatedDateForNotesChart, setnotepadCreatedDateForNotesChart] =
+    useState([]);
+  const [
+    notepadCreatedDateForNotpadChart,
+    setnotepadCreatedDateForNotpadChart,
+  ] = useState([]);
+
   const [numberOfNotepades, setnumberOfNotepades] = useState([]);
   const [numberOfNotesPerNotepad, setnumberOfNotesPerNotepad] = useState([]);
   const [chartType, setchartType] = useState(null);
-  const [page, setpage] = useState(1);
+  const [notepadPage, setnotepadPage] = useState(1);
+  const [notesPage, setnotesPage] = useState(1);
 
   useEffect(() => {
-    getNotepadList(page);
-  }, [page]);
+    getNotepadList(notepadPage);
+  }, [notepadPage]);
+
+  useEffect(() => {
+    getNotepadList(notesPage);
+  }, [notesPage]);
 
   const nextNextNotpadList = (chartType) => {
     setchartType(chartType);
-    setpage((prePage) => prePage + 1);
+    if (chartType === NOTEPADS_TYPE) {
+      setnotepadPage((prenotepadPage) => prenotepadPage + 1);
+    } else {
+      setnotesPage((prenotesPage) => prenotesPage + 1);
+    }
   };
 
   useEffect(() => {
@@ -36,7 +51,9 @@ const Chart = (props) => {
         notepadListState[notepadListState.length - 1].created_at,
       );
 
-      const fiveSecondsTimeRanges = [...Array(8)].map(() => {
+      let page = chartType === NOTEPADS_TYPE ? notepadPage : notesPage;
+
+      const fiveSecondsTimeRanges = [...Array(8 * page)].map(() => {
         const nextFiveSecond = new Date(
           firstNotepadDate.setSeconds(firstNotepadDate.getSeconds() + 5),
         );
@@ -44,8 +61,6 @@ const Chart = (props) => {
         firstNotepadDate = new Date(nextFiveSecond.getTime());
         return new Date(nextFiveSecond.getTime());
       });
-
-      setnotepadCreatedDate(fiveSecondsTimeRanges);
 
       let notpadsinitialList = notepadListState.reverse();
       const finalNotepadCounts = [];
@@ -68,12 +83,31 @@ const Chart = (props) => {
       });
 
       if (chartType === NOTEPADS_TYPE) {
-        setnumberOfNotepades(finalNotepadCounts);
+        setnotepadCreatedDateForNotpadChart(fiveSecondsTimeRanges);
+
+        setnumberOfNotepades((prenumberOfNotepades) => [
+          ...prenumberOfNotepades,
+          ...finalNotepadCounts,
+        ]);
       } else if (chartType === NOTES_TYPE) {
-        setnumberOfNotesPerNotepad(finalNotesPerNotepadCounts);
+        setnotepadCreatedDateForNotesChart(fiveSecondsTimeRanges);
+
+        setnumberOfNotesPerNotepad((prenumberOfNotesPerNotepad) => [
+          ...prenumberOfNotesPerNotepad,
+          ...finalNotesPerNotepadCounts,
+        ]);
       } else {
-        setnumberOfNotepades(finalNotepadCounts);
-        setnumberOfNotesPerNotepad(finalNotesPerNotepadCounts);
+        setnotepadCreatedDateForNotpadChart(fiveSecondsTimeRanges);
+        setnotepadCreatedDateForNotesChart(fiveSecondsTimeRanges);
+
+        setnumberOfNotepades((prenumberOfNotepades) => [
+          ...prenumberOfNotepades,
+          ...finalNotepadCounts,
+        ]);
+        setnumberOfNotesPerNotepad((prenumberOfNotesPerNotepad) => [
+          ...prenumberOfNotesPerNotepad,
+          ...finalNotesPerNotepadCounts,
+        ]);
       }
     }
   }, [notepadListState]);
@@ -81,24 +115,10 @@ const Chart = (props) => {
   //common options between charts
   const options = {
     grid: { top: 25, right: 25, bottom: 50, left: 25 },
-    xAxis: {
-      type: 'category',
-      data: notepadCreatedDate.map(
-        (item) =>
-          `${item.getHours()}:${item.getMinutes()}:${item.getSeconds()}`,
-      ),
-    },
     yAxis: {
       type: 'value',
       data: [50, 100, 150, 200, 250, 300],
     },
-    series: [
-      {
-        data: numberOfNotepades,
-        type: 'line',
-        smooth: true,
-      },
-    ],
     tooltip: {
       trigger: 'axis',
     },
@@ -108,7 +128,7 @@ const Chart = (props) => {
     ...options,
     xAxis: {
       type: 'category',
-      data: notepadCreatedDate.map(
+      data: notepadCreatedDateForNotpadChart.map(
         (item) =>
           `${item.getHours()}:${item.getMinutes()}:${item.getSeconds()}`,
       ),
@@ -125,7 +145,7 @@ const Chart = (props) => {
     ...options,
     xAxis: {
       type: 'category',
-      data: notepadCreatedDate.map(
+      data: notepadCreatedDateForNotesChart.map(
         (item) =>
           `${item.getHours()}:${item.getMinutes()}:${item.getSeconds()}`,
       ),

@@ -5,6 +5,9 @@ import { useField } from 'formik';
 //UI components
 import Button from 'components/Button';
 import Error from 'components/Error';
+import Input from 'components/Input';
+import Textarea from 'components/Textarea';
+
 
 const MAX_TITLE_LENGTH = 255;
 const MAX_DESC_LENGTH = 1000;
@@ -129,7 +132,7 @@ const Noteform = (props) => {
     <div className={`${style.root} ${isEditMode ? style.edit : style.add}`}>
       <div className={style.formWrapper}>
         {hasHeader && <h1 className={style.header}>My Notes</h1>}
-        <input
+        <Input
           id="noteTitle"
           name="noteTitle"
           type="text"
@@ -137,7 +140,7 @@ const Noteform = (props) => {
           value={noteTitle}
           placeholder="Enter note title..."
         />
-        <textarea
+        <Textarea
           rows="4"
           cols="50"
           id="noteDescription"

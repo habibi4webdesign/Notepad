@@ -55,7 +55,7 @@ const useGists = () => {
   const getNotepadList = (page) => {
     API.get(`/gists/public?page=${page}&per_page=8`)
       .then((res) => {
-        setnotepadListState(res.data);
+        setnotepadListState((preList) => [...preList, ...res.data]);
       })
       .catch(function (error) {
         //TODO handle errors

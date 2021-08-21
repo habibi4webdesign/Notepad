@@ -4,6 +4,7 @@ import style from './NotepadForm.module.scss';
 import { ErrorMessage, useField } from 'formik';
 //UI components
 import Error from 'components/Error';
+import Input from 'components/Input';
 
 const NotepadForm = (props) => {
   const { name = 'notepad' } = props;
@@ -16,7 +17,7 @@ const NotepadForm = (props) => {
   return (
     <div className={style.root}>
       <label htmlFor={name}>Notepad Title</label>
-      <input
+      <Input
         id={name}
         name={name}
         type="text"
