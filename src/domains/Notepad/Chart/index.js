@@ -29,11 +29,11 @@ const Chart = (props) => {
 
   useEffect(() => {
     getNotepadList(notepadPage);
-  }, [notepadPage]);
+  }, [notepadPage, getNotepadList]);
 
   useEffect(() => {
     getNotepadList(notesPage);
-  }, [notesPage]);
+  }, [notesPage, getNotepadList]);
 
   const nextNextNotpadList = (chartType) => {
     setchartType(chartType);

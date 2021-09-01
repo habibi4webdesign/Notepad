@@ -25,7 +25,7 @@ const CreateNotepad = ({ history, match }) => {
     if (match?.params?.notepadId) {
       getNotepad(match.params.notepadId);
     }
-  }, [match?.params?.notepadId]);
+  }, [match?.params?.notepadId, getNotepad]);
 
   useEffect(() => {
     let normalizedNotes = [];
@@ -81,8 +81,7 @@ const CreateNotepad = ({ history, match }) => {
               <div className={style.fromWrapper}>
                 <NotepadForm name="notepad" />
                 <Notefrom noteIndex="add" hasHeader name="notes" />
-                {values?.notes &&
-                  values?.notes.map((noteform, index) => (
+                {values?.notes?.map((noteform, index) => (
                     <Notefrom
                       key={index}
                       noteIndex={index}
