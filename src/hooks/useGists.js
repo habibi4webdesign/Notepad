@@ -1,21 +1,25 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import API from 'utils/api';
 
 const useGists = () => {
   const [notepadState, setnotepadState] = useState(null);
   const [notepadListState, setnotepadListState] = useState([]);
 
-  const getNotepad = (notepadId) => {
+  const getNotepad = useCallback((notepadId) => {
     API.get(`/gists/${notepadId}`)
       .then((res) => {
         setnotepadState(res.data);
       })
       .catch(function (error) {
         //TODO handle errors
+        const err = error.toString()
+        if(err.includes("404")){
+          //show toast or redirect to 404 page
+        }
       });
-  };
+  }, []);
 
-  const createNotepad = ({ notepad, notes }, history) => {
+  const createNotepad = useCallback(({ notepad, notes }, history) => {
     const finalNotes = Object.fromEntries(
       notes.map((note) => {
         return [
@@ -38,9 +42,9 @@ const useGists = () => {
       .catch(function (error) {
         //TODO handle errors
       });
-  };
+  }, []);
 
-  const deleteNotepad = (notepadId, history) => {
+  const deleteNotepad = useCallback((notepadId, history) => {
     API.delete(`/gists/${notepadId}`)
       .then((res) => {
         if (res && res.status === 204) {
@@ -50,9 +54,9 @@ const useGists = () => {
       .catch(function (error) {
         //TODO handle errors
       });
-  };
+  }, []);
 
-  const getNotepadList = (page) => {
+  const getNotepadList = useCallback((page) => {
     API.get(`/gists/public?page=${page}&per_page=8`)
       .then((res) => {
         setnotepadListState((preList) => [...preList, ...res.data]);
@@ -60,7 +64,7 @@ const useGists = () => {
       .catch(function (error) {
         //TODO handle errors
       });
-  };
+  }, []);
 
   return {
     notepadState,
